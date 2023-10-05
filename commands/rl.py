@@ -24,12 +24,14 @@ class rl(commands.Cog):
         players = coll.find_one({"_id": {"player": player}})
         if player == None:
             date = coll.find_one({"_id": {"game": "Rocket League"}})['date']
-            players = coll.find_one({"_id": {"game": "Rocket League"}})['players']
+            players = coll.find_one({"_id": {"game": "Rocket League"}})['players'][0]
+            player1 = coll.find_one({"_id": {"game": "Rocket League"}})['players'][1]
+            player2 = coll.find_one({"_id": {"game": "Rocket League"}})['players'][2]
             em = discord.Embed(title="Stats", description="Stats of game won vs game loss and player points", color=0x00ff00)
             em.add_field(name="Wins", value=rl_wins, inline=False)
             em.add_field(name="Losses", value=rl_losses, inline=False)
             em.add_field(name="Date", value=date, inline=False)
-            em.add_field(name="Players", value=players, inline=False)
+            em.add_field(name="Players", value=f"{players}, {player1}, and {player2}", inline=False)
             em.set_footer(text="Created by: @fstropii")
             await ctx.send(embed=em)
         elif players:
