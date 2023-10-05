@@ -23,9 +23,13 @@ class rl(commands.Cog):
         rl_losses = coll.find_one({"_id": {"game": "Rocket League"}})['losses']
         players = coll.find_one({"_id": {"player": player}})
         if player == None:
+            date = coll.find_one({"_id": {"game": "Rocket League"}})['date']
+            players = coll.find_one({"_id": {"game": "Rocket League"}})['players']
             em = discord.Embed(title="Stats", description="Stats of game won vs game loss and player points", color=0x00ff00)
-            em.add_field(name="Wins", value=rl_wins, inline=True)
-            em.add_field(name="Losses", value=rl_losses, inline=True)
+            em.add_field(name="Wins", value=rl_wins, inline=False)
+            em.add_field(name="Losses", value=rl_losses, inline=False)
+            em.add_field(name="Date", value=date, inline=False)
+            em.add_field(name="Players", value=players, inline=False)
             em.set_footer(text="Created by: @fstropii")
             await ctx.send(embed=em)
         elif players:
@@ -48,10 +52,10 @@ class rl(commands.Cog):
         coll = db.rlstats
 
         if coll.find_one({"_id": {"game": "Rocket League"}}):
-            coll.update_one({"_id": {"game": "Rocket League", "date": date, "players": players}}, {"$inc":{"wins":wins, "losses":losses}})
+            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "date": date, "players": players}})
             await ctx.send("Updated")
         else:
-            coll.insert_one({"_id": {"game": "Rocket League", "date": date, "players": players}, "wins":wins, "losses":losses})
+            coll.insert_one({"_id": {"game": "Rocket League"}, "wins":wins, "losses":losses, "date": date, "players": players})
             await ctx.send("Added")
 
     @commands.hybrid_command(name="edituser", description="Add a game to the Rocket League stats!")
