@@ -15,7 +15,7 @@ class game(commands.Cog):
 
     
     @commands.hybrid_command(name="creategame", description="Create a game!")
-    async def creategame(self, ctx, game: str):
+    async def creategame(self, ctx, *, game: str):
         if game == "Rocket League":
             owner = ctx.guild.owner
             await owner.send(f"Hey! {ctx.author} is looking challenge the esports team to a game of {game}")
