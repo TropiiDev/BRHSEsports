@@ -52,10 +52,11 @@ class rl(commands.Cog):
         coll = db.rlstats
 
         if coll.find_one({"_id": {"game": "Rocket League"}}):
-            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "date": date, "players": players}})
+            a = players.split(" ")
+            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "date": date, "players": a}})
             await ctx.send("Updated")
         else:
-            coll.insert_one({"_id": {"game": "Rocket League"}, "wins":wins, "losses":losses, "date": date, "players": players})
+            coll.insert_one({"_id": {"game": "Rocket League"}, "wins":wins, "losses":losses, "date": date, "players": a})
             await ctx.send("Added")
 
     @commands.hybrid_command(name="edituser", description="Add a game to the Rocket League stats!")
