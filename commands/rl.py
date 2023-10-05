@@ -56,6 +56,7 @@ class rl(commands.Cog):
             coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "date": date, "players": a}})
             await ctx.send("Updated")
         else:
+            a = players.split(" ")
             coll.insert_one({"_id": {"game": "Rocket League"}, "wins":wins, "losses":losses, "date": date, "players": a})
             await ctx.send("Added")
 
