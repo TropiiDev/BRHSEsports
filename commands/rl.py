@@ -41,17 +41,17 @@ class rl(commands.Cog):
 
     @commands.hybrid_command(name="addrl", description="Add a game to the Rocket League stats!")
     @commands.has_permissions(administrator=True)
-    async def addrl(self, ctx, wins: int, losses: int):
+    async def addrl(self, ctx, wins: int, losses: int, date: str, players: str):
         await ctx.send("Adding stats...")
         client = pymongo.MongoClient(os.getenv("mongo_url"))
         db = client.servers
         coll = db.rlstats
 
         if coll.find_one({"_id": {"game": "Rocket League"}}):
-            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses}})
+            coll.update_one({"_id": {"game": "Rocket League", "date": date, "players": players}}, {"$inc":{"wins":wins, "losses":losses}})
             await ctx.send("Updated")
         else:
-            coll.insert_one({"_id": {"game": "Rocket League"}, "wins":wins, "losses":losses})
+            coll.insert_one({"_id": {"game": "Rocket League", "date": date, "players": players}, "wins":wins, "losses":losses})
             await ctx.send("Added")
 
     @commands.hybrid_command(name="edituser", description="Add a game to the Rocket League stats!")
