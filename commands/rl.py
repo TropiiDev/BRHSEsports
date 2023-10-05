@@ -20,17 +20,18 @@ class rl(commands.Cog):
         db = client.servers
         coll = db.rlstats
         rl_wins = coll.find_one({"_id": {"game": "Rocket League"}})['wins']
+        rl_losses = coll.find_one({"_id": {"game": "Rocket League"}})['losses']
         players = coll.find_one({"_id": {"player": player}})
         if player == None:
             em = discord.Embed(title="Stats", description="Stats of game won vs game loss and player points", color=0x00ff00)
             em.add_field(name="Wins", value=rl_wins, inline=True)
-            em.add_field(name="Losses", value="2", inline=True)
+            em.add_field(name="Losses", value=rl_losses, inline=True)
             em.set_footer(text="Created by: @fstropii")
             await ctx.send(embed=em)
         elif players:
             player_score = coll.find_one({"_id": {"player": player}})["score"]
             player_assists = coll.find_one({"_id": {"player": player}})["assists"]
-            em = discord.Embed(title="Stats", description="Stats of game won vs game loss and player points", color=0x00ff00)
+            em = discord.Embed(title=f"Stats for {player}", description="Player Score and Assists for every game played", color=0x00ff00)
             em.add_field(name="Player Score: ", value=player_score, inline=False)
             em.add_field(name="Player Assists: ", value=player_assists, inline=False)
             em.set_footer(text="Created by: @fstropii")
