@@ -55,7 +55,7 @@ class rl(commands.Cog):
 
         if coll.find_one({"_id": {"game": "Rocket League"}}):
             a = players.split(" ")
-            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "date": date, "players": a}})
+            coll.update_one({"_id": {"game": "Rocket League"}}, {"$inc":{"wins":wins, "losses":losses, "players": a}}, {"set": {"date": date }})
             await ctx.send("Updated")
         else:
             a = players.split(" ")
